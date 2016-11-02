@@ -63,6 +63,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout.setOnRefreshListener(this);
         lvContent.setOnScrollListener(this);
 
+        refresh();
     }
 
     @Override
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
                 swipeRefreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
                     models.addAll(response.body().getResult().getData());
+
                 }
             }
 

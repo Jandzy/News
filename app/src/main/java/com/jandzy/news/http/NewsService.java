@@ -16,5 +16,5 @@ import retrofit2.http.Query;
 public interface NewsService {
 
     @GET("toutiao/index")
-    Call<NewsModel> getNewsList(@Header("key") String key, @Query("type") String type);
+    Call<NewsModel> getNewsList(@Query("key") String key,@Query("type") String type);
 }

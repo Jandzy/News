@@ -3,6 +3,7 @@
     package="com.jandzy.news">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,7 @@
         <activity android:name=".activity.blogs.BlogActivity"/>
         <activity android:name=".activity.about.AboutActivity"/>
         <activity android:name=".activity.jokes.JokeActivity"/>
+        <activity android:name=".activity.home.NewsDetailActivity"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.jandzy.news.http;
 
+import com.jandzy.news.model.JokesModel;
 import com.jandzy.news.model.NewsModel;
 
 import java.util.List;
@@ -16,5 +17,8 @@ import retrofit2.http.Query;
 public interface NewsService {
 
     @GET("toutiao/index")
-    Call<NewsModel> getNewsList(@Header("key") String key, @Query("type") String type);
+    Call<NewsModel> getNewsList(@Query("key") String key,@Query("type") String type);
+
+    @GET("joke/content/text.from")
+    Call<JokesModel> getJokesList(@Query("key") String key,@Query("page") int page,@Query("pagesize") int pagesize);
 }

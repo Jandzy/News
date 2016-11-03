@@ -1,5 +1,6 @@
 package com.jandzy.news.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.jandzy.news.R;
+import com.jandzy.news.activity.home.NewsDetailActivity;
+import com.jandzy.news.adapter.home.HomeFragmentAdapter;
 import com.jandzy.news.http.NewsService;
 import com.jandzy.news.model.NewsModel;
 import com.jandzy.news.utils.DateUtils;
@@ -36,6 +40,7 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView lvContent;
     private List<NewsModel.ResultEntity.DataEntity> models = new ArrayList<>();
+    private HomeFragmentAdapter homeFragmentAdapter;
 
     @Nullable
     @Override
@@ -60,8 +65,20 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         lvContent = (ListView)view.findViewById(R.id.lv_content);
 
+        homeFragmentAdapter = new HomeFragmentAdapter(this.getActivity(),models);
+        lvContent.setAdapter(homeFragmentAdapter);
+
         swipeRefreshLayout.setOnRefreshListener(this);
         lvContent.setOnScrollListener(this);
+
+        lvContent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+                intent.putExtra("url",models.get(i).getUrl());
+                startActivity(intent);
+            }
+        });
 
         refresh();
     }
@@ -84,11 +101,14 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
                 swipeRefreshLayout.setRefreshing(false);
-                if(response.isSuccessful()){
-                    if (response.body().getReason().equals("成功的返回")) {
-                        models.addAll(response.body().getResult().getData());
-                    }
 
+                if(response.isSuccessful()&&response.body().getError_code()==0){
+                    models.clear();
+                    models.addAll(response.body().getResult().getData());
+                    homeFragmentAdapter.notifyDataSetChanged();
+                    Log.e("error",response.body().getReason()+"");
+                }else{
+                    Log.e("error",response.body().getError_code()+"");
                 }
             }
 

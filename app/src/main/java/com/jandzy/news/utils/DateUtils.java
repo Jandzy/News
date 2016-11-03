@@ -13,4 +13,6 @@ public class DateUtils {
     };
 
     public static String BASE_UI="http://v.juhe.cn/";
+    public static String BASE_JOKES = "http://japi.juhe.cn/";
+    public static String JOKE_KEY = "29ba2d283532da72540ce5f2f33dc3a7";
 }

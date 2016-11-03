@@ -85,7 +85,9 @@ public class HomeFragment extends Fragment implements SwipeRefreshLayout.OnRefre
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
                 swipeRefreshLayout.setRefreshing(false);
                 if(response.isSuccessful()){
-                    models.addAll(response.body().getResult().getData());
+                    if (response.body().getReason().equals("成功的返回")) {
+                        models.addAll(response.body().getResult().getData());
+                    }
 
                 }
             }

@@ -3,7 +3,13 @@ package com.jandzy.news.activity.jokes;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ListView;
@@ -27,7 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by jrazy on 2016/11/1.
  */
-public class JokeActivity extends Activity implements SwipeRefreshLayout.OnRefreshListener,AbsListView.OnScrollListener{
+public class JokeActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,AbsListView.OnScrollListener
+                                ,Toolbar.OnMenuItemClickListener{
 
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView lvContent;
@@ -41,6 +48,12 @@ public class JokeActivity extends Activity implements SwipeRefreshLayout.OnRefre
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        toolbar.setTitle("欢乐");
+        setSupportActionBar(toolbar);
+//        toolbar.setOnMenuItemClickListener(this);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
         lvContent = (ListView) findViewById(R.id.lv_content);
@@ -56,6 +69,7 @@ public class JokeActivity extends Activity implements SwipeRefreshLayout.OnRefre
 
         refresh(false);
     }
+
 
     @Override
     public void onRefresh() {
@@ -137,5 +151,48 @@ public class JokeActivity extends Activity implements SwipeRefreshLayout.OnRefre
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_joke,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String s = "";
+        switch (item.getItemId()) {
+            case R.id.itme1:
+                s = "itme1";
+                break;
+            case R.id.itme2:
+                s= "item2";
+                break;
+            case R.id.itme3:
+                s= "itme3";
+                break;
+        }
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+       /* String s = "";
+        switch (item.getItemId()) {
+            case R.id.itme1:
+                s = "itme1";
+                break;
+            case R.id.itme2:
+                s= "item2";
+                break;
+            case R.id.itme3:
+                s= "itme3";
+                break;
+        }
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();*/
+        return false;
     }
 }
